@@ -20,3 +20,4 @@
 // Buon lavoro e buon divertimento! :muscolo: :paperella:
 
 alert();
+console.log(images);
