@@ -7,7 +7,6 @@
 
 body {
     background: linear-gradient(0.45turn,#ccffff, #bb9999);
-    /* background-color: aquamarine; */
 }
 
 html {
@@ -15,7 +14,67 @@ html {
     font-family: sans-serif;
 }
 
+/* UTILITIES */
+.hidden {
+    display: none;
+}
+
+/* COMMON */
+img {
+    max-width: 100%;
+}
+
+
+/* MAIN */
 main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     width: 100%;
     height: 100vh;
 }
+
+.carousel-container {
+    position: relative;
+    
+    width: 80%;
+    height: 70%;
+    
+    background-color: #000000;
+}
+
+/* Main picture */
+.main-pic {
+    display: flex;
+    justify-content: center ;
+    align-items: center;
+    
+    width: 100%;
+    height: 100%;
+}
+
+.main-pic img{
+    max-height: 100%;
+}
+
+/* Navigation */
+.carousel-container .arrows {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(0, -50%);
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+
+    font-size: 3rem;
+    color: #ffffff;
+    opacity: 0.6;
+}
+

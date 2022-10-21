@@ -19,5 +19,4 @@
 // Aggiungere bottoni di start/stop e di inversione del meccanismo di autoplay.
 // Buon lavoro e buon divertimento! :muscolo: :paperella:
 
-alert();
 console.log(images);
