@@ -45,7 +45,7 @@ main {
 }
 
 /* Main picture */
-.main-pic {
+.carousel-container .main-pic {
     display: flex;
     justify-content: center ;
     align-items: center;
@@ -56,6 +56,29 @@ main {
 
 .main-pic img{
     max-height: 100%;
+}
+
+/* Main picture text */
+.carousel-container .text-pic {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    padding: 2rem;
+
+    color: #ffffff;
+    text-shadow: 1px 1px 0 #000000;
+}
+
+.text-pic h2 {
+    font-size: 2rem;
+    font-family: serif;
+    text-align: right;
+}
+
+.text-pic p {
+    text-align: right;
+    color: #cccccc;
 }
 
 /* Navigation */
