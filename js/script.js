@@ -63,10 +63,28 @@ refreshTextSlider(carouselTextContainer);
 
 // EventListener sulle frecce
 prevBtn.addEventListener("click", function() {
-    changePositionSlide(carouselPicContainer, carouselTextContainer, sliderPosition, --sliderPosition);
+    let oldSliderPosition = sliderPosition;
+
+    if (sliderPosition === 0) {
+        sliderPosition = (images.length - 1);
+    } else {
+        sliderPosition--; 
+    }
+    console.log("newSP",oldSliderPosition, sliderPosition);
+
+    changePositionSlide(carouselPicContainer, carouselTextContainer, oldSliderPosition, sliderPosition);
 })
 nextBtn.addEventListener("click", function() {
-    changePositionSlide(carouselPicContainer, carouselTextContainer, sliderPosition, ++sliderPosition);
+    let oldSliderPosition = sliderPosition;
+
+    if (sliderPosition === images.length - 1) {
+        sliderPosition = 0;
+    } else {
+        sliderPosition++;
+    }
+    console.log("newSP",oldSliderPosition, sliderPosition);
+        
+    changePositionSlide(carouselPicContainer, carouselTextContainer, oldSliderPosition, sliderPosition);
 })
 
 // FUNCTIONS
