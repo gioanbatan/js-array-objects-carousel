@@ -61,12 +61,16 @@ main {
 /* Main picture text */
 .carousel-container .text-pic {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 1rem;
+    right: 1rem;
 
+    width: 70%;
     padding: 2rem;
 
     color: #ffffff;
+    background-color: #00000044;
+    box-shadow: 0 0 3px 3px #00000044;
+
     text-shadow: 1px 1px 0 #000000;
 }
 
@@ -78,7 +82,7 @@ main {
 
 .text-pic p {
     text-align: right;
-    color: #cccccc;
+    color: #dddddd;
 }
 
 /* Navigation */

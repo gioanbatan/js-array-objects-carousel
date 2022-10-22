@@ -38,14 +38,34 @@ console.log(images);
 //      viene tolta la classe "hidden" all'immagine corrente
 //      viene tolta la classe "hidden" al testo dell'immagine corrente
 
+// Data 
+// Numero che rappresenta la posizione nello slider
+let sliderPosition = 0;
+
+// Input Elements
+// Prelevamento delle frecce .prev e .next
+const prevBtn = document.querySelector(".prev"); 
+const nextBtn = document.querySelector(".next");
+
 // Output Elements
-const mainPicContainer = document.querySelector(".main-pic");
-console.log(mainPicContainer);
-const mainTextContainer = document.querySelector(".text-pic");
+// Prelevamento contenitore della foto grande
+const carouselPicContainer = document.querySelector(".carousel-container .main-pic");
+console.log(carouselPicContainer);
+// Prelevamento del contenitore del testo
+const carouselTextContainer = document.querySelector(".carousel-container .text-pic");
+console.log(carouselTextContainer);
 
-// Chiamata alla fuinzione per la creazione di elenti <img> dinamici come figli di ".main-pic"
-mainPicContainer.innerHTML =  createImgElements(images);
+// ESECUZIONE
+// Chiamata alla funzione per la creazione di elenti <img> dinamici come figli di ".main-pic"
+carouselPicContainer.innerHTML = createImgElements(images);
 
+// EventListener sulle frecce
+prevBtn.addEventListener("click", function() {
+    refreshSlide(carouselPicContainer, carouselTextContainer, sliderPosition, --sliderPosition);
+})
+nextBtn.addEventListener("click", function() {
+    refreshSlide(carouselPicContainer, carouselTextContainer, sliderPosition, ++sliderPosition);
+})
 
 // FUNCTIONS
 // Funzione che preleva il nome file delle foto e le inserisce nel DOM
@@ -72,4 +92,25 @@ function createImgElements(objectsArray, destinationElement) {
     
     // Return della stringa completa di elementi
     return imagesElements;
+}
+
+// Funzione che aggiorna l'immagine e il testo corrente
+function refreshSlide(picContainerElement, textContainerElement, currentPositionSlider, newPositionSlider) {
+    // Prelevare la lista di elementi img dal container di immagini
+    const currentImageObjectsArray = picContainerElement.getElementsByTagName("img");
+    // Prelevare titolo e testo dall'array di oggetti images
+    const currentTitleString = images[newPositionSlider].title;
+    const currentTextString = images[newPositionSlider].text;
+
+    //rendere visibile l'elemento img nella nuova posizione e sostituire il testo)
+    currentImageObjectsArray[newPositionSlider].classList.remove("hidden");
+
+    console.log("text", textContainerElement);
+    textContainerElement.innerHTML = `
+        <h2>${currentTitleString}</h2>
+        <p>${currentTextString}</p>
+        `
+
+    //rendere hidden l'elemento corrente (foto)
+    currentImageObjectsArray[currentPositionSlider].classList.add("hidden");
 }
