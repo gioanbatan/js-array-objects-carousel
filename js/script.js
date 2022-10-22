@@ -58,18 +58,25 @@ console.log(carouselTextContainer);
 // ESECUZIONE
 // Chiamata alla funzione per la creazione di elenti <img> dinamici come figli di ".main-pic"
 carouselPicContainer.innerHTML = createImgElements(images);
+console.log(carouselPicContainer, carouselPicContainer.innerHTML);
+refreshTextSlider(carouselTextContainer);
 
 // EventListener sulle frecce
 prevBtn.addEventListener("click", function() {
-    refreshSlide(carouselPicContainer, carouselTextContainer, sliderPosition, --sliderPosition);
+    changePositionSlide(carouselPicContainer, carouselTextContainer, sliderPosition, --sliderPosition);
 })
 nextBtn.addEventListener("click", function() {
-    refreshSlide(carouselPicContainer, carouselTextContainer, sliderPosition, ++sliderPosition);
+    changePositionSlide(carouselPicContainer, carouselTextContainer, sliderPosition, ++sliderPosition);
 })
 
 // FUNCTIONS
 // Funzione che preleva il nome file delle foto e le inserisce nel DOM
-function createImgElements(objectsArray, destinationElement) {
+/**
+ * Description
+ * @param {array} Array di oggetti che contengono una chiave image e tilte
+ * @returns {string} String a contenuto in html
+ */
+function createImgElements(objectsArray) {
     // Creazione della stringa vuota
     let imagesElements = "";
 
@@ -79,7 +86,7 @@ function createImgElements(objectsArray, destinationElement) {
         console.log
                 
         // Dal secondo elemento in poi aggiunge la classe "hidden"
-        if (i === 0) {
+        if (i === sliderPosition) {
             imagesElements += `
             <img src="${thisIndex.image}" alt="${thisIndex.title}">
             `;
@@ -94,8 +101,15 @@ function createImgElements(objectsArray, destinationElement) {
     return imagesElements;
 }
 
-// Funzione che aggiorna l'immagine e il testo corrente
-function refreshSlide(picContainerElement, textContainerElement, currentPositionSlider, newPositionSlider) {
+/**
+ * Description Funzione che aggiorna l'immagine e il testo corrente
+ * @param {object} picContainerElement Elemento del DOM che contiene la foto
+ * @param {object} textContainerElement Elemento del DOM che contiene il testo
+ * @param {number} currentPositionSlider Posizione nello slider dell'elemento attuale da rendere hidden
+ * @param {number} newPositionSlider Posizione nello slider del nuovo elemento
+ */
+function changePositionSlide(picContainerElement, textContainerElement, currentPositionSlider, newPositionSlider) {
+    console.log(typeof(picContainerElement),  typeof(textContainerElement),  typeof(currentPositionSlider), typeof(newPositionSlider));
     // Prelevare la lista di elementi img dal container di immagini
     const currentImageObjectsArray = picContainerElement.getElementsByTagName("img");
     // Prelevare titolo e testo dall'array di oggetti images
@@ -105,12 +119,21 @@ function refreshSlide(picContainerElement, textContainerElement, currentPosition
     //rendere visibile l'elemento img nella nuova posizione e sostituire il testo)
     currentImageObjectsArray[newPositionSlider].classList.remove("hidden");
 
-    console.log("text", textContainerElement);
-    textContainerElement.innerHTML = `
-        <h2>${currentTitleString}</h2>
-        <p>${currentTextString}</p>
-        `
+    refreshTextSlider(textContainerElement);
 
     //rendere hidden l'elemento corrente (foto)
     currentImageObjectsArray[currentPositionSlider].classList.add("hidden");
+}
+
+/**
+ * Description Refresh della descrizione dll'immagine attuale
+ * @param {object} textElement Elemento del DOM dove verrà inserito il testo
+ */
+function refreshTextSlider(textElement) {
+    const imageTitle = images[sliderPosition].title;
+    const imageText = images[sliderPosition].text;
+    textElement.innerHTML = `
+    <h2>${imageTitle}</h2>
+    <p>${imageText}</p>
+    `
 }
