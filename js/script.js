@@ -39,37 +39,37 @@ console.log(images);
 //      viene tolta la classe "hidden" al testo dell'immagine corrente
 
 // Output Elements
-let mainPicContainer = document.querySelector(".main-pic");
+const mainPicContainer = document.querySelector(".main-pic");
 console.log(mainPicContainer);
 const mainTextContainer = document.querySelector(".text-pic");
-// console.log(mainTextContainer);
 
-const prova = createImgElement(images);  
-// mainPicContainer.innerHTML = "test";
-// mainPicContainer.innerHTML = test;
-
-// console.log("CHIAMATA", test, typeof(test));
+// Chiamata alla fuinzione per la creazione di elenti <img> dinamici come figli di ".main-pic"
+mainPicContainer.innerHTML =  createImgElements(images);
 
 
 // FUNCTIONS
-// Funzione che preleva il nome file di una foto e crea un <img>
-function createImgElement(objectsArray) {
-
+// Funzione che preleva il nome file delle foto e le inserisce nel DOM
+function createImgElements(objectsArray, destinationElement) {
+    // Creazione della stringa vuota
     let imagesElements = "";
 
+    // Riempimento della stringa di elemeni <img>
     for (let i = 0; i < objectsArray.length; i++) {
         thisIndex = objectsArray[i];
+        console.log
                 
+        // Dal secondo elemento in poi aggiunge la classe "hidden"
         if (i === 0) {
-            imagesElements += `<img src="${thisIndex["image"]}" alt="${thisIndex["title"]}>`;
+            imagesElements += `
+            <img src="${thisIndex.image}" alt="${thisIndex.title}">
+            `;
         } else {
-            imagesElements += `<img class="hidden" src="${thisIndex["image"]}" alt="${thisIndex["title"]}>`;
+            imagesElements += `
+            <img class="hidden" src="${thisIndex.image}" alt="${thisIndex.title}">
+            `;
         }
-
     }
-
-    console.log("SONO NELLA FUNZIONE", imagesElements);
-    mainPicContainer.innerHTML = imagesElements;
-
-    // return imagesElements;
+    
+    // Return della stringa completa di elementi
+    return imagesElements;
 }
