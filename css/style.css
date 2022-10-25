@@ -19,6 +19,12 @@ html {
     display: none;
 }
 
+.active {
+    filter: brightness(1) opacity(1) !important;
+    border: 1px solid #ffffff;
+    
+}
+
 /* COMMON */
 img {
     max-width: 100%;
@@ -86,6 +92,36 @@ main {
 }
 
 /* Navigation */
+.carousel-container .thumbs {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    
+    width: 100%;
+    height: 20%;
+}
+
+.thumbs img {
+    width: calc(100% / 5 - 0.2rem);
+
+    margin: 0.3rem 0.1rem;
+
+    filter: brightness(0.5) opacity(0.8);
+    object-fit: cover;
+
+    z-index: 1;
+}
+
+.thumbs img:hover {
+    filter: opacity(1);
+}
+
+.thumbs img:active {
+    filter: brightness(1.5)
+}
+
 .carousel-container .arrows {
     position: absolute;
     top: 50%;
@@ -102,6 +138,17 @@ main {
 
     font-size: 3rem;
     color: #ffffff;
+}
+
+.carousel-container .arrows a {
     opacity: 0.6;
+}
+
+.carousel-container .arrows a:hover {
+    opacity: 0.8;
+} 
+
+.carousel-container .arrows a:active {
+    opacity: 1;
 }
 

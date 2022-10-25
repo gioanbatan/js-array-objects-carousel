@@ -54,37 +54,56 @@ console.log(carouselPicContainer);
 // Prelevamento del contenitore del testo
 const carouselTextContainer = document.querySelector(".carousel-container .text-pic");
 console.log(carouselTextContainer);
-
+// Prelevamento contenitore delle thumbnails
+const carouselThumbsContainer = document.querySelector(".carousel-container .thumbs");
+console.log(carouselThumbsContainer);
 // ESECUZIONE
 // Chiamata alla funzione per la creazione di elenti <img> dinamici come figli di ".main-pic"
-carouselPicContainer.innerHTML = createImgElements(images);
+carouselPicContainer.innerHTML = createImgElements(images, false);
 console.log(carouselPicContainer, carouselPicContainer.innerHTML);
+
+// Chiamata alla funzione per la creazione delle thumbnails
+carouselThumbsContainer.innerHTML = createImgElements(images, true);
+
+// Prelevamento delle thumbnails 
+const thumbs = document.querySelectorAll(".thumbs img");
+
+// Aggiungere l'eventlistener alle thumbs
+makeElementListener(thumbs);
+
+// Prima immagine resa visibile
+carouselPicContainer.querySelector("img").classList.remove("hidden");
 refreshTextSlider(carouselTextContainer);
 
-// EventListener sulle frecce
+// Prima thumbs attiva
+activeThumb();
+
+// // Timer
+// setInterval(function(
+//     oldSliderPosition = sliderPosition;
+//     sliderPosition++
+// ), 3000);
+
+// EventListener sulla freccia indietro
 prevBtn.addEventListener("click", function() {
     let oldSliderPosition = sliderPosition;
-
-    if (sliderPosition === 0) {
-        sliderPosition = (images.length - 1);
-    } else {
-        sliderPosition--; 
-    }
-    console.log("newSP",oldSliderPosition, sliderPosition);
+    sliderPosition--;
 
     changePositionSlide(carouselPicContainer, carouselTextContainer, oldSliderPosition, sliderPosition);
+
+    // Attiva (mette class "active") al thumb corrente
+    activeThumb();
 })
+
+// EventListener sulla freccia avanti
 nextBtn.addEventListener("click", function() {
     let oldSliderPosition = sliderPosition;
-
-    if (sliderPosition === images.length - 1) {
-        sliderPosition = 0;
-    } else {
-        sliderPosition++;
-    }
-    console.log("newSP",oldSliderPosition, sliderPosition);
-        
+    sliderPosition++;
+    
     changePositionSlide(carouselPicContainer, carouselTextContainer, oldSliderPosition, sliderPosition);
+
+    // Attiva (mette class "active") al thumb corrente
+    activeThumb();
 })
 
 // FUNCTIONS
@@ -94,17 +113,17 @@ nextBtn.addEventListener("click", function() {
  * @param {array} Array di oggetti che contengono una chiave image e tilte
  * @returns {string} String a contenuto in html
  */
-function createImgElements(objectsArray) {
+function createImgElements(objectsArray, flagVisibility) {
     // Creazione della stringa vuota
     let imagesElements = "";
-
-    // Riempimento della stringa di elemeni <img>
+    
+    // Riempimento della stringa di elementi <img>
     for (let i = 0; i < objectsArray.length; i++) {
         thisIndex = objectsArray[i];
         console.log
-                
-        // Dal secondo elemento in poi aggiunge la classe "hidden"
-        if (i === sliderPosition) {
+        
+        // A seconda del flag Visibility aggiunge la classe "hidden"
+        if (flagVisibility === true) {
             imagesElements += `
             <img src="${thisIndex.image}" alt="${thisIndex.title}">
             `;
@@ -126,21 +145,32 @@ function createImgElements(objectsArray) {
  * @param {number} currentPositionSlider Posizione nello slider dell'elemento attuale da rendere hidden
  * @param {number} newPositionSlider Posizione nello slider del nuovo elemento
  */
-function changePositionSlide(picContainerElement, textContainerElement, currentPositionSlider, newPositionSlider) {
+function changePositionSlide(picContainerElement, textContainerElement, previousPositionSlider) {
+    // NewPosition control
+    if (sliderPosition <  0) {
+        sliderPosition = (images.length - 1);
+        console.log ("inderetro", "slid", sliderPosition, previousPositionSlider)
+    } else if (sliderPosition > images.length - 1) {
+            sliderPosition = 0;
+            console.log ("indavanti", "slid2", sliderPosition, previousPositionSlider)
+    }
+
     console.log(typeof(picContainerElement),  typeof(textContainerElement),  typeof(currentPositionSlider), typeof(newPositionSlider));
     // Prelevare la lista di elementi img dal container di immagini
     const currentImageObjectsArray = picContainerElement.getElementsByTagName("img");
     // Prelevare titolo e testo dall'array di oggetti images
-    const currentTitleString = images[newPositionSlider].title;
-    const currentTextString = images[newPositionSlider].text;
-
-    //rendere visibile l'elemento img nella nuova posizione e sostituire il testo)
-    currentImageObjectsArray[newPositionSlider].classList.remove("hidden");
-
+    const currentTitleString = images[sliderPosition].title;
+    const currentTextString = images[sliderPosition].text;
+    
+    //rendere visibile l'elemento img posizione corrente e sostituire il testo)
+    currentImageObjectsArray[sliderPosition].classList.remove("hidden");
+    
     refreshTextSlider(textContainerElement);
-
-    //rendere hidden l'elemento corrente (foto)
-    currentImageObjectsArray[currentPositionSlider].classList.add("hidden");
+    
+    //rendere hidden l'elemento predente (foto)
+    if (sliderPosition !== previousPositionSlider) {
+        currentImageObjectsArray[previousPositionSlider].classList.add("hidden");
+    }
 }
 
 /**
@@ -154,4 +184,34 @@ function refreshTextSlider(textElement) {
     <h2>${imageTitle}</h2>
     <p>${imageText}</p>
     `
+}
+
+/**
+ * Description Rende attiva la thumbnail corrente
+ */
+function activeThumb() {
+    // Rimuove qualunque active presente nelle thumbs
+    thumbs.forEach(element => 
+        element.classList.remove("active")
+        )
+        // Aggiunge active alla thumbs corrente
+        thumbs[sliderPosition].classList.add("active");
+    }
+
+/**
+ * Description assegna Event listener all'elemento (array di thumbs) dato come attributo
+ * @param {array} Array contenetnte le thumbnails
+ */
+function makeElementListener (elementsArray) {
+    elementsArray.forEach((element, i) => {
+        element.addEventListener("click", function(){
+            oldSliderPosition = sliderPosition;
+            sliderPosition = i;
+            
+            console.log("clikthumbs",oldSliderPosition, sliderPosition);
+            changePositionSlide(carouselPicContainer, carouselTextContainer, oldSliderPosition, sliderPosition);
+
+            activeThumb();
+        })
+    });
 }
