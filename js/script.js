@@ -41,11 +41,14 @@ console.log(images);
 // Data 
 // Numero che rappresenta la posizione nello slider
 let sliderPosition = 0;
+let direction = 1;
 
 // Input Elements
 // Prelevamento delle frecce .prev e .next
 const prevBtn = document.querySelector(".prev"); 
 const nextBtn = document.querySelector(".next");
+const startStopBtn = document.getElementById("start-stop-btn");
+const reverseBtn = document.getElementById("reverse-btn");
 
 // Output Elements
 // Prelevamento contenitore della foto grande
@@ -78,12 +81,29 @@ refreshTextSlider(carouselTextContainer);
 // Prima thumbs attiva
 activeThumb();
 
+reverseBtn.addEventListener("click", function() {
+    (direction === 1) ? direction = -1 : direction = 1;  
+})
+
 // // Timer
-setInterval(function() {
-    let oldSliderPosition = sliderPosition;
-    sliderPosition++;
-    changePositionSlide(carouselPicContainer, carouselTextContainer, oldSliderPosition);
-}, 3000);
+let timerSlide = 0;
+
+startStopBtn.addEventListener("click", function() {
+    if (!timerSlide) {
+        startStopBtn.innerText = "Stop";
+        console.log("timer false", timerSlide);
+        timerSlide = setInterval(function() {    
+            let oldSliderPosition = sliderPosition;
+            sliderPosition += + direction;
+            changePositionSlide(carouselPicContainer, carouselTextContainer, oldSliderPosition);
+        }, 1000);
+    } else {
+        startStopBtn.innerText = "Start";
+        console.log("timer true", timerSlide);
+        clearInterval(timerSlide);
+        timerSlide = 0;
+    }
+});
 
 // EventListener sulla freccia indietro
 prevBtn.addEventListener("click", function() {
@@ -94,7 +114,7 @@ prevBtn.addEventListener("click", function() {
 
     // Attiva (mette class "active") al thumb corrente
     activeThumb();
-})
+});
 
 // EventListener sulla freccia avanti
 nextBtn.addEventListener("click", function() {
