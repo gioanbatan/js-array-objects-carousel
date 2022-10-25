@@ -96,7 +96,7 @@ startStopBtn.addEventListener("click", function() {
             let oldSliderPosition = sliderPosition;
             sliderPosition += + direction;
             changePositionSlide(carouselPicContainer, carouselTextContainer, oldSliderPosition);
-        }, 1000);
+        }, 3000);
     } else {
         startStopBtn.innerText = "Start";
         console.log("timer true", timerSlide);
