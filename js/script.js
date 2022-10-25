@@ -79,17 +79,18 @@ refreshTextSlider(carouselTextContainer);
 activeThumb();
 
 // // Timer
-// setInterval(function(
-//     oldSliderPosition = sliderPosition;
-//     sliderPosition++
-// ), 3000);
+setInterval(function() {
+    let oldSliderPosition = sliderPosition;
+    sliderPosition++;
+    changePositionSlide(carouselPicContainer, carouselTextContainer, oldSliderPosition);
+}, 3000);
 
 // EventListener sulla freccia indietro
 prevBtn.addEventListener("click", function() {
     let oldSliderPosition = sliderPosition;
     sliderPosition--;
 
-    changePositionSlide(carouselPicContainer, carouselTextContainer, oldSliderPosition, sliderPosition);
+    changePositionSlide(carouselPicContainer, carouselTextContainer, oldSliderPosition);
 
     // Attiva (mette class "active") al thumb corrente
     activeThumb();
@@ -100,10 +101,10 @@ nextBtn.addEventListener("click", function() {
     let oldSliderPosition = sliderPosition;
     sliderPosition++;
     
-    changePositionSlide(carouselPicContainer, carouselTextContainer, oldSliderPosition, sliderPosition);
+    changePositionSlide(carouselPicContainer, carouselTextContainer, oldSliderPosition);
 
-    // Attiva (mette class "active") al thumb corrente
-    activeThumb();
+    // // Attiva (mette class "active") al thumb corrente
+    // activeThumb();
 })
 
 // FUNCTIONS
@@ -171,6 +172,9 @@ function changePositionSlide(picContainerElement, textContainerElement, previous
     if (sliderPosition !== previousPositionSlider) {
         currentImageObjectsArray[previousPositionSlider].classList.add("hidden");
     }
+
+     // Attiva (mette class "active") al thumb corrente
+     activeThumb();
 }
 
 /**
